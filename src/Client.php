@@ -25,12 +25,10 @@ class Client
         string $login,
         string $pass,
         string $url,
-        string $apiKey,
-        ?string $apiToken = null
+        string $apiKey
     )
     {
         $this->config = new Config($login, $pass, $url, $apiKey);
-        $this->apiToken = $apiToken;
     }
 
     public function makeRequest(string $httpMethod, string $url, array $postFields = [], array $queryParameters = []): array
