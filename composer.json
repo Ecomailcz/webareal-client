@@ -1,7 +1,12 @@
 {
   "name": "ecomailcz/webareal-client",
   "description": "Basic client for working with Webareal API",
-  "author": "Jan Tlapák (jan@ecomail.cz)",
+  "authors": [
+    {
+      "name": "Jan Tlapák",
+      "email": "jan@ecomail.cz"
+    }
+  ],
   "license": ["MIT"],
   "minimum-stability": "dev",
   "prefer-stable": true,
