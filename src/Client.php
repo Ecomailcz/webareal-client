@@ -56,7 +56,7 @@ class Client
             $url .= '?' . http_build_query($queryParameters);
         }
 
-        curl_setopt($ch, CURLOPT_URL, 'https://' . $this->config->getUrl() . '/' . $url);
+        curl_setopt($ch, CURLOPT_URL, $this->config->getUrl() . '/' . $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $httpMethod);
         curl_setopt(
             $ch,
@@ -113,7 +113,7 @@ class Client
         curl_setopt_array(
             $curl,
             [
-                CURLOPT_URL => "https://$apiServer/login",
+                CURLOPT_URL => "$apiServer/login",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,

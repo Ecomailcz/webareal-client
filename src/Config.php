@@ -38,8 +38,24 @@ final class Config
     {
         $this->pass = $pass;
         $this->login = $login;
-        $this->url = $url;
+        $this->url = $this->getAbsoluteUrl($url);
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Make absolute Endpoint URL, with back compatibility
+     *
+     * @param string $url
+     * @return string
+     */
+    private function getAbsoluteUrl(string $url): string
+    {
+        if(preg_match('~^https?://~', $url) === 1) {
+            return $url;
+        }
+
+        trigger_error('Use absolute URL with https://', E_USER_DEPRECATED);
+        return 'https://' . $url;
     }
 
     public function getLogin(): string
