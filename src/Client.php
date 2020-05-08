@@ -1,16 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace EcomailWebareal;
 
+use EcomailShoptet\Exception\EcomailShoptetRequestError;
 use EcomailWebareal\Exception\EcomailWebarealInvalidAuthorization;
 use EcomailWebareal\Exception\EcomailWebarealNotFound;
-use EcomailShoptet\Exception\EcomailShoptetRequestError;
 
 class Client
 {
-
     /**
-     * @var \EcomailWebareal\Config
+     * @var Config
      */
     private $config;
 
@@ -21,32 +22,35 @@ class Client
      */
     private $apiToken;
 
-    public function __construct(
-        string $login,
-        string $pass,
-        string $url,
-        string $apiKey
-    )
+    public function __construct(string $login, string $pass, string $url, string $apiKey)
     {
         $this->config = new Config($login, $pass, $url, $apiKey);
     }
 
-    public function makeRequest(string $httpMethod, string $url, array $postFields = [], array $queryParameters = []): array
-    {
+    public function makeRequest(
+        string $httpMethod,
+        string $url,
+        array $postFields = [],
+        array $queryParameters = []
+    ): array {
         if ($this->apiToken === null) {
             throw new EcomailWebarealInvalidAuthorization();
         }
 
         /** @var resource $ch */
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        curl_setopt($ch, CURLOPT_HTTPAUTH, TRUE);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization:  Bearer ' . $this->apiToken,
-            'X-Wa-api-token: ' . $this->config->getApiKey()
-        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            [
+                'Authorization:  Bearer ' . $this->apiToken,
+                'X-Wa-api-token: ' . $this->config->getApiKey()
+            ]
+        );
 
         if (count($queryParameters) !== 0) {
             $url .= '?' . http_build_query($queryParameters);
@@ -54,7 +58,11 @@ class Client
 
         curl_setopt($ch, CURLOPT_URL, 'https://' . $this->config->getUrl() . '/' . $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $httpMethod);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Ecomail.cz Webareal client (https://github.com/Ecomailcz/webareal-client)');
+        curl_setopt(
+            $ch,
+            CURLOPT_USERAGENT,
+            'Ecomail.cz Webareal client (https://github.com/Ecomailcz/webareal-client)'
+        );
 
         if (count($postFields) !== 0) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postFields));
@@ -69,7 +77,6 @@ class Client
         $result = json_decode($output, true);
 
         if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200 && curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 201) {
-
             if (curl_getinfo($ch, CURLINFO_HTTP_CODE) === 404) {
                 throw new EcomailWebarealNotFound();
             } // Check authorization
@@ -80,9 +87,7 @@ class Client
                     foreach ($result['errors'] as $error) {
                         throw new EcomailShoptetRequestError($error['message']);
                     }
-
                 }
-
             }
         }
 
@@ -105,19 +110,22 @@ class Client
         $password = $this->config->getPassword();
         $apiKey = $this->config->getApiKey();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://$apiServer/login",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"username\": \"$username\",\n  \"password\": \"$password\"\n}",
-            CURLOPT_HTTPHEADER => array(
-                "X-Wa-api-token: $apiKey",
-            ),
-        ));
+        curl_setopt_array(
+            $curl,
+            [
+                CURLOPT_URL => "https://$apiServer/login",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "{\n  \"username\": \"$username\",\n  \"password\": \"$password\"\n}",
+                CURLOPT_HTTPHEADER => [
+                    "X-Wa-api-token: $apiKey",
+                ],
+            ]
+        );
 
         $output = curl_exec($curl);
         $err = curl_error($curl);
@@ -131,5 +139,4 @@ class Client
 
         return $result;
     }
-
 }
