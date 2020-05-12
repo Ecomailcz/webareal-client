@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal;
+namespace Ecomailcz\Webareal;
 
 class Credentials
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal\Response;
+namespace Ecomailcz\Webareal\Response;
 
 class JsonResponse implements IResponse
 {

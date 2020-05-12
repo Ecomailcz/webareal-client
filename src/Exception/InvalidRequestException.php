@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal\Exception;
+namespace Ecomailcz\Webareal\Exception;
 
 class InvalidRequestException extends LogicException
 {

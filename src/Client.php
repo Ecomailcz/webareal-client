@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal;
+namespace Ecomailcz\Webareal;
 
-use EcomailWebareal\Exception\AccessDeniedException;
-use EcomailWebareal\Exception\ConnectionException;
-use EcomailWebareal\Exception\InvalidRequestException;
-use EcomailWebareal\Exception\InvalidResponseException;
-use EcomailWebareal\Exception\NotFoundException;
-use EcomailWebareal\Exception\ResponseErrorException;
-use EcomailWebareal\Exception\UnauthorizedException;
-use EcomailWebareal\Exception\UnexpectedResponseException;
-use EcomailWebareal\Response\JsonResponse;
-use EcomailWebareal\Response\Response;
-use EcomailWebareal\TokenCache\ITokenCache;
-use EcomailWebareal\TokenCache\MemoryCache;
+use Ecomailcz\Webareal\Exception\AccessDeniedException;
+use Ecomailcz\Webareal\Exception\ConnectionException;
+use Ecomailcz\Webareal\Exception\InvalidRequestException;
+use Ecomailcz\Webareal\Exception\InvalidResponseException;
+use Ecomailcz\Webareal\Exception\NotFoundException;
+use Ecomailcz\Webareal\Exception\ResponseErrorException;
+use Ecomailcz\Webareal\Exception\UnauthorizedException;
+use Ecomailcz\Webareal\Exception\UnexpectedResponseException;
+use Ecomailcz\Webareal\Response\JsonResponse;
+use Ecomailcz\Webareal\Response\Response;
+use Ecomailcz\Webareal\TokenCache\ITokenCache;
+use Ecomailcz\Webareal\TokenCache\MemoryCache;
 use JsonException;
 
 class Client

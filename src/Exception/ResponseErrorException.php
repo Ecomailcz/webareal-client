@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal\Exception;
+namespace Ecomailcz\Webareal\Exception;
 
-use EcomailWebareal\Response\Response;
+use Ecomailcz\Webareal\Response\Response;
 use Throwable;
 
 class ResponseErrorException extends NetworkException

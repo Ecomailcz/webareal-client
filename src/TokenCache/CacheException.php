@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal\TokenCache;
+namespace Ecomailcz\Webareal\TokenCache;
 
-use EcomailWebareal\Exception\RuntimeException;
+use Ecomailcz\Webareal\Exception\RuntimeException;
 
 class CacheException extends RuntimeException
 {

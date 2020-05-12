@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EcomailWebareal\TokenCache;
+namespace Ecomailcz\Webareal\TokenCache;
 
 use DateTimeInterface;
 
