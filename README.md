@@ -2,15 +2,16 @@
 
 # Instalace
 
-```shell
+```sh
 composer require ecomailcz/webareal-client
 ```
 
 # Použití
 
 ```php
+<?php
 $username = '<vaše přihlašovací jméno>';
-$password = '<vaše přihlašovací heaslo>';
+$password = '<vaše přihlašovací heslo>';
 $apiKey = '<váš API klíč>';
 
 $credentials = new \Ecomailcz\Webareal\Credentials($username, $password, $apiKey); 
@@ -36,6 +37,21 @@ Výchozí cache si ale ukládá Token pouze v paměti, která se po skončení b
 ukládání cache do souboru, stačí jen cache předat knihovně při vytváření:
 
 ```php
+<?php
 $cache = new \Ecomailcz\Webareal\TokenCache\FileCache(__DIR__ . '/temp');
 $api = new \Ecomailcz\Webareal\Client($credentials, $cache);
+```
+
+## SSL CA bundle
+Pokud není na serveru správně nainstalován balíček aktuálních CA certifikátů, může spojení na API server selhat s chybou:
+```plain_text
+curl: (60) SSL certificate problem: Invalid certificate chain
+More details here: https://curl.haxx.se/docs/sslcerts.html
+``` 
+
+V takovém případě stačí do vaší aplikace nainstalovat balíček [`composer/ca-bundle`](https://packagist.org/packages/composer/ca-bundle) a wrapper jej automaticky
+použije pro spojení se serverem.
+
+```sh
+composer require composer/ca-bundle
 ```

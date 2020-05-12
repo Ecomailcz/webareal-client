@@ -145,6 +145,8 @@ class Client
             curl_setopt($curl, CURLOPT_XOAUTH2_BEARER, $apiToken);
         }
 
+        $this->connectCaBundle($curl);
+
         $responseContent = curl_exec($curl);
         if ($error = curl_error($curl)) {
             $curl_errno = curl_errno($curl);
@@ -210,5 +212,22 @@ class Client
             $response->getStatusCode(),
             $response
         );
+    }
+
+    /**
+     * @param resource $curl Curl resource
+     */
+    private function connectCaBundle($curl): void
+    {
+        if (class_exists(\Composer\CaBundle\CaBundle::class, true) === false) {
+            return;
+        }
+
+        $caPathOrFile = \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath();
+        if (is_dir($caPathOrFile)) {
+            curl_setopt($curl, CURLOPT_CAPATH, $caPathOrFile);
+        } else {
+            curl_setopt($curl, CURLOPT_CAINFO, $caPathOrFile);
+        }
     }
 }
