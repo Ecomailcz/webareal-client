@@ -1,6 +1,6 @@
 {
   "name": "ecomailcz/webareal-client",
-  "description": "Basic client for working with Webareal API",
+  "description": "Basic client for working with Webareal.cz API",
   "authors": [
     {
       "name": "Jan Tlapák",
