@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace EcomailWebareal;
 
-final class Config
+class Credentials
 {
+    public const DEFAULT_URL = 'https://api.webareal.cz';
+
     /**
      * Webareal login
      *
@@ -18,10 +20,10 @@ final class Config
      *
      * @var string
      */
-    private $pass;
+    private $password;
 
     /**
-     * Webareal api subdomain
+     * Webareal API endpoint URL
      *
      * @var string
      */
@@ -34,12 +36,12 @@ final class Config
      */
     private $apiKey;
 
-    public function __construct(string $login, string $pass, string $url, string $apiKey)
+    public function __construct(string $login, string $password, string $apiKey, string $url = self::DEFAULT_URL)
     {
-        $this->pass = $pass;
+        $this->password = $password;
         $this->login = $login;
-        $this->url = $this->getAbsoluteUrl($url);
         $this->apiKey = $apiKey;
+        $this->url = $this->getAbsoluteUrl($url);
     }
 
     /**
@@ -50,7 +52,7 @@ final class Config
      */
     private function getAbsoluteUrl(string $url): string
     {
-        if(preg_match('~^https?://~', $url) === 1) {
+        if (preg_match('~^https?://~', $url) === 1) {
             return $url;
         }
 
@@ -65,7 +67,7 @@ final class Config
 
     public function getPassword(): string
     {
-        return $this->pass;
+        return $this->password;
     }
 
     public function getUrl(): string
