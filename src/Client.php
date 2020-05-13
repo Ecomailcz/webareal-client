@@ -152,7 +152,7 @@ class Client
             throw new ConnectionException($error, $curl_errno);
         }
 
-        $response = new Response($responseContent, $responseHeaders, curl_getinfo($curl, CURLINFO_HTTP_CODE));
+        $response = new Response((string)$responseContent, $responseHeaders, curl_getinfo($curl, CURLINFO_HTTP_CODE));
         curl_close($curl);
 
         if ($response->getStatusCode() >= 400) {
