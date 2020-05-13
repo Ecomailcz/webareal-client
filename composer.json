@@ -21,6 +21,9 @@
     "roave/security-advisories": "dev-master",
     "sllh/composer-versions-check": "^2.0"
   },
+  "suggest": {
+    "composer/ca-bundle": "Provide secure way to fix SSL error (SSL certificate problem: Invalid certificate)"
+  },
   "autoload": {
     "psr-4": {
       "Ecomailcz\\Webareal\\": ["src/"]
