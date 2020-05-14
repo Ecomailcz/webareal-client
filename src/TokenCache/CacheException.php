@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Ecomailcz\Webareal\TokenCache;
 
-use Ecomailcz\Webareal\Exception\RuntimeException;
+use Ecomailcz\Webareal\Exception\LogicException;
 
-class CacheException extends RuntimeException
+class CacheException extends LogicException
 {
 
 }
