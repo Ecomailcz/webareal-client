@@ -10,9 +10,9 @@ interface ITokenCache
 {
     public const DEFAULT_TTL = '+1 hour';
 
-    public function load(): ?string;
+    public function load(string $cacheKey): ?string;
 
-    public function save(string $token, ?DateTimeInterface $expire = null): void;
+    public function save(string $cacheKey, string $token, ?DateTimeInterface $expire = null): void;
 
-    public function clear(): void;
+    public function clear(string $cacheKey): void;
 }
