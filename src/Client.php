@@ -72,7 +72,7 @@ class Client
 
     private function getApiToken(): string
     {
-        return $this->tokenCache->load() ?? $this->login();
+        return $this->tokenCache->load($this->credentials->getIdentityHash()) ?? $this->login();
     }
 
     private function login(): string
@@ -93,7 +93,7 @@ class Client
             );
         }
 
-        $this->tokenCache->save($response->getField('token'));
+        $this->tokenCache->save($this->credentials->getIdentityHash(), $response->getField('token'));
 
         return $response->getField('token');
     }

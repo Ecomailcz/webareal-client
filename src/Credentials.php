@@ -79,4 +79,9 @@ class Credentials
     {
         return $this->apiKey;
     }
+
+    public function getIdentityHash(): string
+    {
+        return md5(serialize([$this->login, $this->password, $this->apiKey, $this->url]));
+    }
 }

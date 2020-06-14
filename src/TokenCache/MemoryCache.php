@@ -9,29 +9,30 @@ use DateTimeInterface;
 
 class MemoryCache implements ITokenCache
 {
-    /** @var string|null */
-    private $token;
-    /** @var DateTimeInterface|null */
-    private $expire;
+    /** @var string[] */
+    private $token = [];
+    /** @var DateTimeInterface[] */
+    private $expire = [];
 
-    public function load(): ?string
+    public function load(string $cacheKey): ?string
     {
-        if ($this->token !== null && $this->expire > new DateTimeImmutable()) {
-            return $this->token;
+        if (isset($this->token[$cacheKey]) && $this->expire[$cacheKey] > new DateTimeImmutable()) {
+            return $this->token[$cacheKey];
         }
 
         return null;
     }
 
-    public function save(string $token, ?DateTimeInterface $expire = null): void
+    public function save(string $cacheKey, string $token, ?DateTimeInterface $expire = null): void
     {
-        $this->expire = $expire ?? new DateTimeImmutable(self::DEFAULT_TTL);
-        $this->token = $token;
+        $this->expire[$cacheKey] = $expire ?? new DateTimeImmutable(self::DEFAULT_TTL);
+        $this->token[$cacheKey] = $token;
     }
 
-    public function clear(): void
+    public function clear(string $cacheKey): void
     {
-        $this->token = null;
-        $this->expire = null;
+        if (isset($this->token[$cacheKey])) {
+            unset($this->token[$cacheKey], $this->expire[$cacheKey]);
+        }
     }
 }
