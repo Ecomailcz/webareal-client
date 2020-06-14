@@ -138,12 +138,11 @@ class Client
         }
 
         $requestHeaders[] = 'X-Wa-api-token: ' . $this->credentials->getApiKey();
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
 
         if ($apiToken !== null) {
-            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
-            curl_setopt($curl, CURLOPT_XOAUTH2_BEARER, $apiToken);
+            $requestHeaders[] = 'Authorization: Bearer ' . $apiToken;
         }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
 
         $this->connectCaBundle($curl);
 
