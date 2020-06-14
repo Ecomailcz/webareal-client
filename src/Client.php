@@ -140,12 +140,7 @@ class Client
         $requestHeaders[] = 'X-Wa-api-token: ' . $this->credentials->getApiKey();
 
         if ($apiToken !== null) {
-            if (defined('CURLAUTH_BEARER')) {
-                curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
-                curl_setopt($curl, CURLOPT_XOAUTH2_BEARER, $apiToken);
-            } else {
-                $requestHeaders[] = 'Authorization: Bearer ' . $apiToken;
-            }
+            $requestHeaders[] = 'Authorization: Bearer ' . $apiToken;
         }
         curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
 
