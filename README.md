@@ -42,6 +42,17 @@ $cache = new \Ecomailcz\Webareal\TokenCache\FileCache(__DIR__ . '/temp');
 $api = new \Ecomailcz\Webareal\Client($credentials, $cache);
 ```
 
+## Časový limit
+Bez nastavení čeká wrapper na odpověď API serveru bez omezení. Limit pro navázání spojení a pro celý request
+(v sekundách) lze předat při vytváření:
+
+```php
+<?php
+$api = new \Ecomailcz\Webareal\Client($credentials, null, 3, 10);
+```
+
+Když server limit nedodrží, wrapper vyhodí `\Ecomailcz\Webareal\Exception\ConnectionException`.
+
 ## SSL CA bundle
 Pokud není na serveru správně nainstalován balíček aktuálních CA certifikátů, může spojení na API server selhat s chybou:
 ```plain_text
