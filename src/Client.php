@@ -149,12 +149,12 @@ class Client
         $responseContent = curl_exec($curl);
         if ($error = curl_error($curl)) {
             $curl_errno = curl_errno($curl);
-            $this->closeHandle($curl);
+            $this->closeCurl($curl);
             throw new ConnectionException($error, $curl_errno);
         }
 
         $response = new Response((string)$responseContent, $responseHeaders, curl_getinfo($curl, CURLINFO_HTTP_CODE));
-        $this->closeHandle($curl);
+        $this->closeCurl($curl);
 
         if ($response->getStatusCode() >= 400) {
             throw $this->createResponseErrorException($response);
@@ -189,7 +189,7 @@ class Client
      *
      * @param resource|\CurlHandle $curl
      */
-    private function closeHandle($curl): void
+    private function closeCurl($curl): void
     {
         if (PHP_VERSION_ID < 80000) {
             curl_close($curl);
