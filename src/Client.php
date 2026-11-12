@@ -37,10 +37,30 @@ class Client
      */
     private $tokenCache;
 
-    public function __construct(Credentials $credentials, ?ITokenCache $tokenCache = null)
-    {
+    /**
+     * Maximum time in seconds to connect to the API server, null keeps the cURL default
+     *
+     * @var int|null
+     */
+    private $connectTimeout;
+
+    /**
+     * Maximum time in seconds for one whole request, null means no limit
+     *
+     * @var int|null
+     */
+    private $timeout;
+
+    public function __construct(
+        Credentials $credentials,
+        ?ITokenCache $tokenCache = null,
+        ?int $connectTimeout = null,
+        ?int $timeout = null
+    ) {
         $this->credentials = $credentials;
         $this->tokenCache = $tokenCache ?? new MemoryCache();
+        $this->connectTimeout = $connectTimeout;
+        $this->timeout = $timeout;
     }
 
     public function requestGet(string $urlPath, array $query = []): array
@@ -131,6 +151,14 @@ class Client
                 },
             ]
         );
+
+        if ($this->connectTimeout !== null) {
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->connectTimeout);
+        }
+
+        if ($this->timeout !== null) {
+            curl_setopt($curl, CURLOPT_TIMEOUT, $this->timeout);
+        }
 
         if (count($post) && in_array(strtoupper($method), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
             $requestHeaders[] = 'Content-Type: application/json';
